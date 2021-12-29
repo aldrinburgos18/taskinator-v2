@@ -8,6 +8,18 @@ var taskFormHandler = function (event) {
   var taskNameInput = document.querySelector("input[name='task-name']").value;
   var taskTypeInput = document.querySelector("select[name='task-type']").value;
 
+  //check if input values are empty stings
+  if (!taskNameInput || !taskTypeInput) {
+    alert("You need to fill out the task form!");
+    return false;
+    //check if the number of characters are at least 3
+  } else if (taskNameInput.length <= 2) {
+    alert("Please enter at least 3 characters.");
+    return false;
+  }
+  //resets form after submission
+  formEl.reset();
+
   //package up data as an object
   var taskDataObj = {
     name: taskNameInput,
