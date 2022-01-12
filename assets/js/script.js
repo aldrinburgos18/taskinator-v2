@@ -1,4 +1,5 @@
 var taskIdCounter = 0;
+var tasks = [];
 
 var formEl = document.querySelector("#task-form");
 var tasksToDoEl = document.querySelector("#tasks-to-do");
@@ -39,6 +40,7 @@ var taskFormHandler = function (event) {
     var taskDataObj = {
       name: taskNameInput,
       type: taskTypeInput,
+      status: "to do",
     };
     //send it as an argument to createTaskEl
     createTaskEl(taskDataObj);
@@ -76,6 +78,10 @@ var createTaskEl = function (taskDataObj) {
 
   //add entire list item to list
   tasksToDoEl.appendChild(listItemEl);
+
+  //add data to array for localStorage
+  taskDataObj.id = taskIdCounter;
+  tasks.push(taskDataObj);
 
   //increase task counter for next unique id
   taskIdCounter++;
@@ -145,6 +151,21 @@ var deleteTask = function (taskId) {
     ".task-item[data-task-id='" + taskId + "']"
   );
   taskSelected.remove();
+
+  //create a new array to hold updated list of tasks
+  var updatedTaskArr = [];
+
+  //loop through current tasks
+  for (var i = 0; i < tasks.length; i++) {
+    //if tasks[i].id doesn't match the value of taskId, let's keep that task
+    if (tasks[i].id !== parseInt(taskId)) {
+      updatedTaskArr.push(tasks[i]);
+    }
+  }
+  console.log(updatedTaskArr);
+
+  //reassign tasks array to be the same as updatedTasksArr
+  tasks = updatedTaskArr;
 };
 
 //edit task logic
@@ -185,6 +206,13 @@ var taskStatusChangeHandler = function (event) {
   } else if (statusValue === "completed") {
     tasksCompletedEl.appendChild(taskSelected);
   }
+
+  //update task's status in tasks array
+  for (var i = 0; i < tasks.length; i++) {
+    if (tasks[i].id === parseInt(taskId)) {
+      tasks[i].status = statusValue;
+    }
+  }
 };
 
 var completeEditTask = function (taskName, taskType, taskId) {
@@ -196,6 +224,14 @@ var completeEditTask = function (taskName, taskType, taskId) {
   //set new values
   taskSelected.querySelector("h3.task-name").textContent = taskName;
   taskSelected.querySelector("span.task-type").textContent = taskType;
+
+  //loop through tasks array and update object with new content
+  for (var i = 0; i < tasks.length; i++) {
+    if (tasks[i].id === parseInt(taskId)) {
+      tasks[i].name = taskName;
+      tasks[i].type = taskType;
+    }
+  }
 
   alert("Task Updated!");
 
@@ -250,6 +286,14 @@ var dropTaskHandler = function (event) {
 
   dropZoneEl.appendChild(draggableElement);
   dropZoneEl.removeAttribute("style");
+
+  //loop through tasks array to find and update the updated task's status
+  for (var i = 0; i < tasks.length; i++) {
+    if (tasks[i].id === parseInt(id)) {
+      tasks[i].status = statusSelectEl.value.toLowerCase();
+    }
+  }
+  console.log(tasks);
 };
 
 formEl.addEventListener("submit", taskFormHandler);
