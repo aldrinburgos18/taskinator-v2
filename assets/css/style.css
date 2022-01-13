@@ -3,9 +3,9 @@
 }
 
 :root {
-  --primary: #44e9ff;
-  --secondary: #497980;
-  --tertiary: rgb(192, 246, 253);
+  --primary: #ebd9dd;
+  --secondary: #d8aed3;
+  --tertiary: #9182c4;
   --grey: #333;
   font-size: 62.5%;
 }
@@ -98,7 +98,7 @@ footer {
   list-style: none;
   padding: 15px;
   height: calc(100% - 50px);
-  background: rgb(196, 196, 196);
+  background: var(--primary);
   border-radius: 12px;
   border: 2px solid var(--grey);
 }
@@ -228,5 +228,4 @@ footer {
   .task-list-wrapper {
     flex-basis: 100%;
   }
-
 }

@@ -256,7 +256,7 @@ var dropZoneDragHandler = function (event) {
     event.preventDefault();
     taskListEl.setAttribute(
       "style",
-      "background: rgba(68, 233, 255, 0.7); border-style: dashed;"
+      "background: #d8aed3; border-style: dashed;"
     );
   }
 };
